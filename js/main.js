@@ -29,13 +29,12 @@ class Game {
         this.checkCollision = this.checkCollision.bind(this);
         this.rotateCard = this.rotateCard.bind(this);
         this.addEventListeners();
-
     }
 
     initGame() {
         this.render();
         console.log(this.cardItems);
-    };
+    }
 
     render() {
         this.imageArr = this.imageArr.concat(this.imageArr);
@@ -52,55 +51,67 @@ class Game {
             this.form.appendChild(cardItem);
         }
     }
+
     rotateCard(e) {
+
         let clickedItem = e.target.closest('div');
         this.moves.push(clickedItem);
-        clickedItem.style.transitionDuration = '1s';
-        if(this.canRotate > 0) {
-            clickedItem.style.transform = 'rotateY(180deg)';
+        if (this.canRotate > 0) {
             this.canRotate--;
-            setTimeout(() => {this.rotateCardFront(clickedItem)}, 500);
-
+            clickedItem.style.transform = 'rotateY(180deg)';
+            setTimeout(() => {
+                this.rotateCardFront(clickedItem);
+            }, 500);
         }
     }
-    rotateCardFront(clickedItem){
+
+    rotateCardFront(clickedItem) {
         clickedItem.children[0].style.visibility = 'visible';
-        setTimeout(() => {this.rotateCardBack(clickedItem)}, 1500);
+        setTimeout(() => {
+            this.rotateCardBack(clickedItem);
+        }, 1500);
     }
-    rotateCardBack(clickedItem){
+
+    rotateCardBack(clickedItem) {
         clickedItem.style.transform = 'rotateY(0deg)';
         clickedItem.children[0].style.visibility = 'hidden';
-        this.canRotate++;
+        setTimeout(() => {
+            this.canRotate++;
+        }, 1000);
     }
-    checkCollision(){
+
+    checkCollision() {
         let nowMoveImg = 'now';
         let prevMoveImg = 'prev';
-        if(this.moves.length >=2){
-            nowMoveImg = this.moves[this.moves.length-1].querySelector('img').getAttribute('src');
-            prevMoveImg = this.moves[this.moves.length-2].querySelector('img').getAttribute('src');
+        if (this.moves.length >= 2) {
+            nowMoveImg = this.moves[this.moves.length - 1]
+                .querySelector('img')
+                .getAttribute('src');
 
+            prevMoveImg = this.moves[this.moves.length - 2]
+                .querySelector('img')
+                .getAttribute('src');
         }
-        if(nowMoveImg.toString() === prevMoveImg.toString() && (this.moves[this.moves.length-1] != this.moves[this.moves.length-2]) ){
-            this.rotateCardFront(this.moves[this.moves.length-1]);
-           this.moves[this.moves.length-1].style.visibility= 'hidden';
-           this.moves[this.moves.length-2].style.visibility= 'hidden';
+        if (nowMoveImg.toString() === prevMoveImg.toString() &&
+            (this.moves[this.moves.length - 1] !== this.moves[this.moves.length - 2])) {
+            this.rotateCardFront(this.moves[this.moves.length - 1]);
+            this.moves[this.moves.length - 1].style.visibility = 'hidden';
+            this.moves[this.moves.length - 2].style.visibility = 'hidden';
             this.collisionToWin--;
-            console.log(this.collisionToWin);
         }
-        if(this.collisionToWin === 0) {
-
+        if (this.collisionToWin === 0) {
             setTimeout(function () {
                 alert('You Win');
             }, 2000);
         }
     }
+
     addEventListeners() {
         for (let i = 0; i < this.cardItems.length; i++) {
             this.cardItems[i].addEventListener('click', this.rotateCard);
             this.cardItems[i].addEventListener('click', this.checkCollision);
         }
     }
-
 }
 
 class Card {
@@ -110,5 +121,5 @@ class Card {
 }
 
 
- new Game(images);
+new Game(images);
 
