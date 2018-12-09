@@ -16,6 +16,7 @@ body {
     flex-wrap: wrap;
 }
 .cardItem {
+    transition-duration: 1s;
     cursor: pointer;
     padding: 10px;
     text-align: center;
@@ -27,11 +28,23 @@ body {
     margin: 1px;
 }
 .cardItem img {
-    visibility: hidden;
+
     height: 180px;
 }
 
-flip{
+.flip{
     transform: rotateY(180deg);
+}
+flip img{
+    visibility: visible;
+}
+.nonflip{
+    transform: rotateY(0deg);
+}
+.hidden{
+    visibility: hidden;
+}
+.visible {
+    visibility: visible;
 }
 
